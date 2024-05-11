@@ -14,7 +14,7 @@ class TaskService {
         return await this.Task.find({ where: { Username: username } });
     }
     async getById(userId) {
-        return await this.Task.find({ where: { userId: userId } });
+        return await this.Task.findOne({ where: { UserId: userId } });
     }
     async destroy(id) {
         await this.Task.destroy({ where: { id: id } });
