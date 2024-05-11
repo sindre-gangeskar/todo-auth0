@@ -5,7 +5,7 @@ class UserService {
     }
 
     async create(username, password) {
-        return await this.User.create({ where: { username: username, password: password } });
+        return await this.User.create({ Username: username, Password: password });
     }
     async getAll() {
         return await this.User.findAll();
@@ -21,4 +21,4 @@ class UserService {
     }
 }
 
-return UserService;
+module.exports = UserService;

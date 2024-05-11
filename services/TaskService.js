@@ -4,21 +4,21 @@ class TaskService {
         this.Task = db.Task;
     }
 
-    async create(username, name, points) {
-        return await this.create({ where: { username: username, name: name, points: points } });
+    async create(username, name, points, deadline, userId) {
+        return await this.Task.create({ Username: username, Name: name, Points: points, Deadline: deadline, UserId: userId  });
     }
     async getAll() {
-        return await this.findAll({ where: {} });
+        return await this.Task.findAll();
     }
     async getByUsername(username) {
-        return await this.findAll({ where: { username: username } });
+        return await this.Task.find({ where: { Username: username } });
     }
     async getById(userId) {
-        return await this.findAll({ where: { userId: userId } });
+        return await this.Task.find({ where: { userId: userId } });
     }
     async destroy(id) {
-        await this.destroy({ where: { id: id } });
+        await this.Task.destroy({ where: { id: id } });
     }
 }
 
-return TaskService;
+module.exports = TaskService;
