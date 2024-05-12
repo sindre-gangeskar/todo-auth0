@@ -12,6 +12,13 @@ const { requiresAuth } = require('express-openid-connect');
 
 /* GET home page. */
 router.get('/', async function (req, res, next) {
+  /* 
+    #swagger.tags = ['Index']
+    #swagger.description = "If logged in, get user's username and tasks created, else display generic index message with no user data"
+    #swaggger.produces = ['text/json']
+    #swagger.responses = [200]
+  */
+
   if (req.oidc.isAuthenticated()) {
     const user = await userService.getOneByName(req.oidc.user.nickname);
 
@@ -27,6 +34,12 @@ router.get('/', async function (req, res, next) {
     res.json({ message: 'index' })
 });
 router.get('/users', requiresAuth(), async function (req, res, next) {
+  /* 
+    #swagger.tags = ['Users']
+    #swagger.description = "Requires admin privilges, get an overview of all users created in database"
+    #swagger.produces = ['text/json']
+    #swagger.respones = [200]
+  */
   if (req.oidc.user.role === 'Admin') {
     const users = await userService.getAll();
     res.json({
@@ -37,6 +50,12 @@ router.get('/users', requiresAuth(), async function (req, res, next) {
   else res.json({ message: 'Admin priviliges required' });
 });
 router.get('/tasks', requiresAuth(), async function (req, res, next) {
+  /* 
+    #swagger.tags = ['Tasks']
+    #swagger.description = "Requires authentication, gets all tasks related to logged in user"
+    #swagger.produces = ['text/json']
+    #swagger.responses = [200]
+  */
   const user = await userService.getOneByName(req.oidc.user.nickname);
   const tasks = await taskService.getById(user.id);
   res.json({
@@ -46,6 +65,14 @@ router.get('/tasks', requiresAuth(), async function (req, res, next) {
   })
 });
 router.post('/users', requiresAuth(), async function (req, res, next) {
+  /* 
+  #swagger.tags = ['Users']
+  #swagger.description = "Create user for database based from oidc client info"
+  #swagger.produces = ['text/json']
+  #swagger.responses = [201]
+  */
+  
+  
   try {
     await userService.create(req.oidc?.user?.nickname);
     res.status(201).json({
@@ -70,6 +97,12 @@ router.post('/users', requiresAuth(), async function (req, res, next) {
   }
 })
 router.post('/tasks', requiresAuth(), async function (req, res, next) {
+  /* 
+    #swagger.tags = ['Tasks']
+    #swagger.description = "Create tasks for current logged in user"
+    #swagger.produces = ['text/json']
+    #swagger.responses = [201]
+  */
   try {
     await taskService.create(req.body.Name, req.body.Points, req.body.Deadline, req.body.UserId);
     res.json({

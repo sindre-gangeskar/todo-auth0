@@ -13,7 +13,10 @@
   "paths": {
     "/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Index"
+        ],
+        "description": "If logged in, get user's username and tasks created, else display generic index message with no user data",
         "responses": {
           "200": {
             "description": "OK"
@@ -23,7 +26,13 @@
     },
     "/users": {
       "get": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "Requires admin privilges, get an overview of all users created in database",
+        "produces": [
+          "text/json"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -31,7 +40,13 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Users"
+        ],
+        "description": "Create user for database based from oidc client info",
+        "produces": [
+          "text/json"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -47,7 +62,13 @@
     },
     "/tasks": {
       "get": {
-        "description": "",
+        "tags": [
+          "Tasks"
+        ],
+        "description": "Requires authentication, gets all tasks related to logged in user",
+        "produces": [
+          "text/json"
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -55,7 +76,13 @@
         }
       },
       "post": {
-        "description": "",
+        "tags": [
+          "Tasks"
+        ],
+        "description": "Create tasks for current logged in user",
+        "produces": [
+          "text/json"
+        ],
         "parameters": [
           {
             "name": "body",
@@ -82,6 +109,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "201": {
+            "description": "Created"
           },
           "403": {
             "description": "Forbidden"
