@@ -1,4 +1,6 @@
 require('dotenv').config();
+var swaggerUI = require('swagger-ui-express');
+var swaggerFile = require('./swagger-output.json');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -37,7 +39,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-
+app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerFile));
 //#region Error Handling
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
